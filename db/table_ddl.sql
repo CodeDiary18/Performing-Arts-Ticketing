@@ -69,3 +69,11 @@ CREATE TABLE performance_hourly_view_stat
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE member
+(
+    id         bigint auto_increment primary key,
+    name       varchar(255) not null,
+    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp DEFAULT CURRENT_TIMESTAMP
+);

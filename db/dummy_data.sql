@@ -80,3 +80,15 @@ INSERT INTO history_performance_discount (id, perf_id, perf_dc_id, perf_dc_price
 VALUES (1, 1, 1, 0, NOW(), NOW()),
        (2, 1, 1, 4000, NOW(), NOW()),
        (3, 1, 1, 5000, NOW(), NOW());
+
+INSERT INTO member (id, name)
+VALUES (1, '홍길동'),
+       (2, '김철수'),
+       (3, '이영희'),
+       (4, '박명수'),
+       (5, '유재석'),
+       (6, '강호동'),
+       (7, '이수근'),
+       (8, '신동엽'),
+       (9, '김숙'),
+       (10, '김구라');
