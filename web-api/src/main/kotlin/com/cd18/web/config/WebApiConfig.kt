@@ -10,9 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 @Configuration
 class WebApiConfig : WebMvcConfigurer {
     @Bean
-    fun globalExceptionHandler(): GlobalExceptionHandler {
-        return GlobalExceptionHandler()
-    }
+    fun globalExceptionHandler() = GlobalExceptionHandler()
 
     @Bean
     fun currentUserResolver() = CurrentUserResolver()
