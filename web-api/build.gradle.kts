@@ -17,4 +17,6 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi:2.6.0")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
     implementation("io.swagger.core.v3:swagger-annotations:2.2.27")
+
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
 }
