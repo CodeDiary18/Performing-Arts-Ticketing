@@ -10,7 +10,7 @@ CREATE TABLE performance_info
     updated_at timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE performance_date
+CREATE TABLE performance_schedule
 (
     id         bigint auto_increment primary key,
     perf_id    bigint    not null,

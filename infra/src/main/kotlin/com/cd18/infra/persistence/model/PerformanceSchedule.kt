@@ -10,8 +10,8 @@ import jakarta.persistence.Table
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "performance_date")
-class PerformanceDate(
+@Table(name = "performance_schedule")
+class PerformanceSchedule(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,
