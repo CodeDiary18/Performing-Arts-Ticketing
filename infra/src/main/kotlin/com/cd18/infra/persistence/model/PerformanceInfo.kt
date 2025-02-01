@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
+import java.time.LocalDate
 
 @Entity
 @Table(name = "performance_info")
@@ -21,7 +22,7 @@ class PerformanceInfo(
     @Column(name = "perf_venue")
     val venue: String,
     @Column(name = "start_date")
-    val startDate: String,
+    val startDate: LocalDate,
     @Column(name = "end_date")
-    val endDate: String,
+    val endDate: LocalDate,
 ) : BaseTimeEntity()
