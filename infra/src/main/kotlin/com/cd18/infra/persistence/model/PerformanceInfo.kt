@@ -13,15 +13,15 @@ import jakarta.persistence.Table
 class PerformanceInfo(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long = 0,
+    val id: Long = 0,
     @Column(name = "perf_name")
-    var name: String,
+    val name: String,
     @Column(name = "perf_desc")
-    var description: String,
+    val description: String,
     @Column(name = "perf_venue")
-    var venue: String,
+    val venue: String,
     @Column(name = "start_date")
-    var startDate: String,
+    val startDate: String,
     @Column(name = "end_date")
-    var endDate: String,
+    val endDate: String,
 ) : BaseTimeEntity()

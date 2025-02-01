@@ -13,9 +13,9 @@ import jakarta.persistence.Table
 class PerformanceDiscount(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long = 0,
+    val id: Long = 0,
     @Column(name = "perf_id")
-    var performanceInfoId: Long,
+    val performanceInfoId: Long,
     @Column(name = "perf_dc_price")
-    var discountPrice: Int,
+    val discountPrice: Int,
 ) : BaseTimeEntity()

@@ -14,13 +14,13 @@ import java.time.LocalDate
 class PerformanceHourlyViewStat(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long = 0,
+    val id: Long = 0,
     @Column(name = "statistic_date")
-    var statisticDate: LocalDate,
+    val statisticDate: LocalDate,
     @Column(name = "statistic_hour")
-    var statisticHour: Int,
+    val statisticHour: Int,
     @Column(name = "perf_id")
-    var performanceInfoId: Long,
+    val performanceInfoId: Long,
     @Column(name = "view_count", nullable = false)
     val viewCount: Long,
 ) : BaseTimeEntity() {

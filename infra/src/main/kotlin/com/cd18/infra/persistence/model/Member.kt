@@ -13,8 +13,8 @@ import jakarta.persistence.Table
 class Member(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long = 0,
+    val id: Long = 0,
     @Column(name = "name")
-    var name: String,
+    val name: String,
     // TODO : email, password, phone 추가
 ) : BaseTimeEntity()

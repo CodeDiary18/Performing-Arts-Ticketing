@@ -17,17 +17,17 @@ import jakarta.persistence.Table
 class UserActionLog(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long = 0,
+    val id: Long = 0,
     @Column(name = "user_id")
-    var userId: Long? = null,
+    val userId: Long? = null,
     @Enumerated(EnumType.STRING)
     @Column(name = "action_type")
-    var actionType: ActionType,
+    val actionType: ActionType,
     @Column(name = "target_id")
-    var targetId: Long? = null,
+    val targetId: Long? = null,
     @Enumerated(EnumType.STRING)
     @Column(name = "target_type")
-    var targetType: TargetType,
+    val targetType: TargetType,
     @Column(name = "action_detail")
-    var actionDetail: String? = null,
+    val actionDetail: String? = null,
 ) : BaseTimeEntity()

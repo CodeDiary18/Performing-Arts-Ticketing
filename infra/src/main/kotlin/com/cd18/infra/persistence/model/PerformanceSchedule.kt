@@ -14,9 +14,9 @@ import java.time.LocalDateTime
 class PerformanceSchedule(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long = 0,
+    val id: Long = 0,
     @Column(name = "perf_id")
-    var performanceInfoId: Long,
+    val performanceInfoId: Long,
     @Column(name = "perf_time")
-    var startTime: LocalDateTime,
+    val startTime: LocalDateTime,
 ) : BaseTimeEntity()
