@@ -54,3 +54,7 @@ tasks.named("clean") {
         generated.deleteRecursively()
     }
 }
+
+tasks.jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
