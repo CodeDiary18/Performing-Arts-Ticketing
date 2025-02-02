@@ -5,11 +5,13 @@ import com.cd18.infra.persistence.model.PerformanceDiscount
 import com.cd18.infra.persistence.model.PerformanceInfo
 import com.cd18.infra.persistence.model.PerformancePrice
 import com.cd18.infra.persistence.model.PerformanceSchedule
+import com.cd18.infra.persistence.model.Seat
 import com.cd18.infra.persistence.repository.jpa.MemberJpaRepository
 import com.cd18.infra.persistence.repository.jpa.PerformanceDiscountJpaRepository
 import com.cd18.infra.persistence.repository.jpa.PerformanceInfoJpaRepository
 import com.cd18.infra.persistence.repository.jpa.PerformancePriceJpaRepository
 import com.cd18.infra.persistence.repository.jpa.PerformanceScheduleJpaRepository
+import com.cd18.infra.persistence.repository.jpa.SeatJpaRepository
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.CommandLineRunner
@@ -26,8 +28,9 @@ class DummyDataInitializer(
     private val performanceScheduleJpaRepository: PerformanceScheduleJpaRepository,
     private val performancePriceJpaRepository: PerformancePriceJpaRepository,
     private val performanceDiscountJpaRepository: PerformanceDiscountJpaRepository,
+    private val seatJpaRepository: SeatJpaRepository,
 ) : CommandLineRunner {
-    val logger = KotlinLogging.logger {}
+    private val logger = KotlinLogging.logger {}
 
     override fun run(vararg args: String?) {
         if (!isDummyInsertStr.toBoolean()) {
@@ -39,7 +42,7 @@ class DummyDataInitializer(
 
     private fun insertPerformanceInfoData() {
         if (performanceInfoJpaRepository.count() > 0) {
-            logger.info { "PerformanceInfo data already exists." }
+            logger.debug { "PerformanceInfo data already exists." }
             return
         }
 
@@ -56,7 +59,8 @@ class DummyDataInitializer(
             }
         performanceInfoJpaRepository.saveAll(performanceInfos)
 
-        performanceInfos.forEach { performanceInfo ->
+        val performanceInfo = performanceInfos[0]
+        val performanceSchedules =
             performanceScheduleJpaRepository.saveAll(
                 createPerformanceScheduleList(
                     performanceInfo.id,
@@ -64,9 +68,18 @@ class DummyDataInitializer(
                     performanceInfo.endDate,
                 ),
             )
-            val (performancePrice, performanceDiscount) = createPerformancePriceAndDiscount(performanceInfo.id)
-            performancePriceJpaRepository.save(performancePrice)
-            performanceDiscountJpaRepository.save(performanceDiscount)
+        val (performancePrice, performanceDiscount) = createPerformancePriceAndDiscount(performanceInfo.id)
+        performancePriceJpaRepository.save(performancePrice)
+        performanceDiscountJpaRepository.save(performanceDiscount)
+
+        performanceSchedules.forEach { performanceSchedule ->
+            val seats =
+                createSeatList(
+                    performanceId = performanceInfo.id,
+                    performanceScheduleId = performanceSchedule.id,
+                    numOfSeats = 500,
+                )
+            seatJpaRepository.saveAll(seats)
         }
     }
 
@@ -109,6 +122,34 @@ class DummyDataInitializer(
             )
 
         return performancePrice to performanceDiscount
+    }
+
+    private fun createSeatList(
+        performanceId: Long,
+        performanceScheduleId: Long,
+        numOfSeats: Int,
+    ): List<Seat> {
+        val seatsPerSection = 80 // 각 구역에 최대 80석
+        val rowsPerSection = 10 // 구역당 10행
+        val seatsPerRow = seatsPerSection / rowsPerSection // 구역당 1행에 포함되는 좌석 수
+        val sectionsCount = (numOfSeats + seatsPerSection - 1) / seatsPerSection // 구역 수
+        val sections = ('A'..'Z').take(sectionsCount) // A부터 Z까지 알파벳으로 구역을 지정
+
+        return (1..numOfSeats).map {
+            val sectionIndex = (it - 1) / seatsPerSection
+            val section = sections[sectionIndex]
+            val seatIndexInSection = (it - 1) % seatsPerSection
+            val rowIndex = seatIndexInSection / seatsPerRow
+            val seatIndexInRow = seatIndexInSection % seatsPerRow
+
+            Seat(
+                performanceInfoId = performanceId,
+                performanceScheduleId = performanceScheduleId,
+                seatName = "$section%02d".format(it),
+                posX = seatIndexInRow + 1,
+                posY = rowIndex + 1,
+            )
+        }
     }
 
     private fun insertMemberData() {

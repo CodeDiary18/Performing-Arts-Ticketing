@@ -19,6 +19,19 @@ CREATE TABLE performance_schedule
     updated_at timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE seat
+(
+    id           bigint auto_increment primary key,
+    perf_id      bigint     not null,
+    perf_schedule_id bigint     not null,
+    seat_name    varchar(4) not null,
+    pos_x        int unsigned not null,
+    pos_y        int unsigned not null,
+    status       varchar(10) not null,
+    created_at   timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at   timestamp DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE performance_price
 (
     id         bigint auto_increment primary key,
