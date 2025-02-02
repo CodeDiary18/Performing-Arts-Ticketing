@@ -25,4 +25,9 @@ class PerformanceInfo(
     val startDate: LocalDate,
     @Column(name = "end_date")
     val endDate: LocalDate,
+//    TODO: Add ticketing start and end date
+//    @Column(name = "ticketing_start_date")
+//    val ticketingStartDate: LocalDateTime,
+//    @Column(name = "ticketing_end_date")
+//    val ticketingEndDate: LocalDateTime,
 ) : BaseTimeEntity()
