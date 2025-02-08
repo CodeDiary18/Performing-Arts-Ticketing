@@ -13,6 +13,7 @@ import com.cd18.infra.persistence.model.QPerformanceInfo.performanceInfo
 import com.cd18.infra.persistence.model.QPerformancePrice.performancePrice
 import com.cd18.infra.persistence.repository.extensions.leftJoinPerformanceDiscount
 import com.cd18.infra.persistence.repository.extensions.leftJoinPerformancePrice
+import com.cd18.infra.persistence.repository.jpa.PerformanceInfoJpaRepository
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
@@ -21,7 +22,12 @@ import java.time.LocalDateTime
 @Repository
 class PerformanceInfoRepositoryImpl(
     private val queryFactory: JPAQueryFactory,
+    private val performanceInfoJpaRepository: PerformanceInfoJpaRepository,
 ) : PerformanceInfoRepository {
+    override fun isExistById(id: Long): Boolean {
+        return performanceInfoJpaRepository.existsById(id)
+    }
+
     override fun getList(pageParam: PageParam): List<PerformanceInfoDto> {
         return queryFactory.select(
             Projections.constructor(

@@ -6,6 +6,7 @@ import com.cd18.web.controller.request.PageRequest
 import com.cd18.web.controller.request.RankingRequest
 import com.cd18.web.controller.response.PerformanceInfoDetailResponse
 import com.cd18.web.controller.response.PerformanceInfoListResponse
+import com.cd18.web.controller.response.PerformanceScheduleListResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -44,6 +45,25 @@ class PerformanceInfoController(
     ): ApiResponse<PerformanceInfoDetailResponse> {
         val data = performanceInfoService.getById(id).getOrThrow()
         return ApiResponse(result = PerformanceInfoDetailResponse.of(data))
+    }
+
+    @GetMapping("/{id}/schedule")
+    @Operation(
+        summary = "공연 일정 정보",
+        description = "공연 일정 정보를 조회합니다.",
+    )
+    fun getScheduleInfo(
+        @Parameter(description = "공연 ID", required = true, example = "1")
+        @PathVariable id: Long,
+    ): ApiResponse<PerformanceScheduleListResponse> {
+        val scheduleInfoById = performanceInfoService.getScheduleInfoById(id).getOrThrow()
+        return ApiResponse(
+            result =
+                PerformanceScheduleListResponse.of(
+                    performanceId = id,
+                    performanceScheduleList = scheduleInfoById,
+                ),
+        )
     }
 
     @GetMapping("/ranking")
