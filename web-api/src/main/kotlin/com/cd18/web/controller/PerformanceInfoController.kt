@@ -1,12 +1,14 @@
 package com.cd18.web.controller
 
 import com.cd18.application.performance.PerformanceInfoService
+import com.cd18.application.ticketing.SeatService
 import com.cd18.common.http.response.ApiResponse
 import com.cd18.web.controller.request.PageRequest
 import com.cd18.web.controller.request.RankingRequest
 import com.cd18.web.controller.response.PerformanceInfoDetailResponse
 import com.cd18.web.controller.response.PerformanceInfoListResponse
 import com.cd18.web.controller.response.PerformanceScheduleListResponse
+import com.cd18.web.controller.response.SeatListResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController
 @Tag(name = "공연 정보", description = "공연 정보 APIs")
 class PerformanceInfoController(
     private val performanceInfoService: PerformanceInfoService,
+    private val seatService: SeatService,
 ) {
     @GetMapping("")
     @Operation(
@@ -62,6 +65,28 @@ class PerformanceInfoController(
                 PerformanceScheduleListResponse.of(
                     performanceId = id,
                     performanceScheduleList = scheduleInfoById,
+                ),
+        )
+    }
+
+    @GetMapping("/{id}/schedule/{scheduleId}")
+    @Operation(
+        summary = "공연 스케줄 좌석 정보",
+        description = "공연 스케줄 좌석 정보를 조회합니다.",
+    )
+    fun getSeatInfo(
+        @Parameter(description = "공연 ID", required = true, example = "1")
+        @PathVariable id: Long,
+        @Parameter(description = "공연 스케줄 ID", required = true, example = "5")
+        @PathVariable scheduleId: Long,
+    ): ApiResponse<SeatListResponse> {
+        val seatInfoList = seatService.getSeatsBySchedule(performanceId = id, scheduleId = scheduleId).getOrThrow()
+        return ApiResponse(
+            result =
+                SeatListResponse.of(
+                    performanceId = id,
+                    scheduleId = scheduleId,
+                    seatInfoList = seatInfoList,
                 ),
         )
     }
