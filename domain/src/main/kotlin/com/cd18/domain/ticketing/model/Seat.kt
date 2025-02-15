@@ -7,5 +7,8 @@ class Seat(
     val seatName: String,
     val posX: Int,
     val posY: Int,
-    val status: SeatStatus,
-)
+    private val status: SeatStatus,
+) {
+    val isAvailable: Boolean
+        get() = status == SeatStatus.AVAILABLE
+}

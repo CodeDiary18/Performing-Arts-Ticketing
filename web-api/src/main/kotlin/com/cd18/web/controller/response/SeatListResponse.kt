@@ -1,6 +1,5 @@
 package com.cd18.web.controller.response
 
-import com.cd18.domain.ticketing.enums.SeatStatus
 import com.cd18.domain.ticketing.model.Seat
 import io.swagger.v3.oas.annotations.media.Schema
 
@@ -23,8 +22,8 @@ data class SeatListResponse(
         val posX: Int,
         @Schema(description = "좌석 y 좌표", example = "1")
         val posY: Int,
-        @Schema(description = "좌석 상태", example = "AVAILABLE")
-        val status: SeatStatus,
+        @Schema(description = "좌석 예매 가능 상태(true: 활성, false: 비활성)", example = "true")
+        val isAvailable: Boolean,
     )
 
     companion object {
@@ -42,7 +41,7 @@ data class SeatListResponse(
                         seatName = it.seatName,
                         posX = it.posX,
                         posY = it.posY,
-                        status = it.status,
+                        isAvailable = it.isAvailable,
                     )
                 },
         )
