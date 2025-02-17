@@ -1,6 +1,7 @@
 package com.cd18.common.http.errorhandling
 
 import com.cd18.common.exception.BaseException
+import com.cd18.common.exception.MissingUserInfoHeaderException
 import com.cd18.common.http.response.code.BaseErrorCode
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
@@ -16,6 +17,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(BaseException::class)
     fun handleBaseException(e: BaseException): ResponseEntity<ErrorResponse> {
+        return ResponseEntity
+            .status(e.errorCode.status.value())
+            .body(ErrorResponse.of(e.errorCode))
+    }
+
+    @ExceptionHandler(MissingUserInfoHeaderException::class)
+    fun handleMissingUserInfoHeaderException(e: MissingUserInfoHeaderException): ResponseEntity<ErrorResponse> {
         return ResponseEntity
             .status(e.errorCode.status.value())
             .body(ErrorResponse.of(e.errorCode))

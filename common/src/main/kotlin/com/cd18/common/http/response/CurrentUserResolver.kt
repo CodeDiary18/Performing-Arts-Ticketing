@@ -1,5 +1,6 @@
 package com.cd18.common.http.response
 
+import com.cd18.common.exception.MissingUserInfoHeaderException
 import com.cd18.common.http.annotation.CurrentUser
 import com.cd18.common.http.enums.Auth
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -27,7 +28,7 @@ class CurrentUserResolver : HandlerMethodArgumentResolver {
         val required = parameter.getParameterAnnotation(CurrentUser::class.java)?.required
 
         if (required == true && userId == null) {
-            throw IllegalArgumentException("User ID is required but not found in the request header")
+            throw MissingUserInfoHeaderException()
         }
 
         logger.debug { "userId: $userId" }
