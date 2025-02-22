@@ -25,3 +25,8 @@ decorator:
 
 load-dummy-data:
   enabled: false
+
+logging:
+  level:
+    root: INFO
+    com.cd18.application: DEBUG
