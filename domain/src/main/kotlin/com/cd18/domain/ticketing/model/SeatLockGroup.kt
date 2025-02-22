@@ -1,5 +1,6 @@
 package com.cd18.domain.ticketing.model
 
+import com.cd18.common.util.getCurrentTime
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -10,8 +11,10 @@ class SeatLockGroup(
     val seatIds: List<Long>,
 ) {
     private val expireTimeDuration = 5L
+    private val createTime: LocalDateTime = getCurrentTime()
 
-    val expireTime: LocalDateTime = LocalDateTime.now().plusMinutes(expireTimeDuration)
+    val expireTime: LocalDateTime
+        get() = createTime.plusMinutes(expireTimeDuration)
 
     companion object {
         fun create(
