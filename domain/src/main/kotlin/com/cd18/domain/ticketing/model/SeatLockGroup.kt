@@ -7,7 +7,7 @@ import java.util.UUID
 class SeatLockGroup(
     val lockGroupId: UUID,
     val userId: Long,
-    val scheduleId: Long,
+    val scheduleId: Long = 0L,
     val seatIds: List<Long>,
 ) {
     private val expireTimeDuration = 5L

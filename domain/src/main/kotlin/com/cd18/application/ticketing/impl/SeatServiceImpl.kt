@@ -11,6 +11,7 @@ import com.cd18.domain.ticketing.repository.SeatRepository
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.UUID
 
 @Service
 class SeatServiceImpl(
@@ -66,5 +67,24 @@ class SeatServiceImpl(
         )
 
         return Result.success(seatLockGroup)
+    }
+
+    @Transactional
+    override fun cancelSeatLockGroup(
+        userId: Long,
+        lockGroupId: UUID,
+    ): Result<Unit> {
+        val seatLockGroup = seatLockRepository.getSeatLockGroupByLockGroupId(userId = userId, lockGroupId = lockGroupId)
+
+        seatRepository.updateSeatStatus(
+            seatIds = seatLockGroup.seatIds,
+            status = SeatStatus.AVAILABLE,
+        )
+        seatLockRepository.deleteBySeatLockGroup(
+            userId = userId,
+            lockGroupId = lockGroupId,
+        )
+
+        return Result.success(Unit)
     }
 }

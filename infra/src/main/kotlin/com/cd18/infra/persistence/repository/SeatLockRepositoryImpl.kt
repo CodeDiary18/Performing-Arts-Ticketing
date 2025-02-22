@@ -1,11 +1,17 @@
 package com.cd18.infra.persistence.repository
 
+import com.cd18.common.exception.BaseException
+import com.cd18.domain.ticketing.enums.TicketingErrorCode
 import com.cd18.domain.ticketing.model.SeatLockGroup
 import com.cd18.domain.ticketing.repository.SeatLockRepository
+import com.cd18.infra.persistence.model.QSeatLock.seatLock
 import com.cd18.infra.persistence.model.SeatLock
+import com.cd18.infra.persistence.repository.extensions.filterActive
+import com.cd18.infra.persistence.repository.extensions.filterLockGroup
 import com.cd18.infra.persistence.repository.jpa.SeatLockJpaRepository
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
+import java.util.UUID
 
 @Repository
 class SeatLockRepositoryImpl(
@@ -24,5 +30,35 @@ class SeatLockRepositoryImpl(
                 )
             }
         seatLockJpaRepository.saveAll(seatLocks)
+    }
+
+    override fun getSeatLockGroupByLockGroupId(
+        userId: Long,
+        lockGroupId: UUID,
+    ): SeatLockGroup {
+        val seatIds: List<Long> =
+            queryFactory.select(seatLock.seatId)
+                .from(seatLock)
+                .where(
+                    seatLock.userId.eq(userId),
+                )
+                .filterLockGroup(lockGroupId = lockGroupId, userId = userId)
+                .filterActive()
+                .fetch() ?: throw BaseException(TicketingErrorCode.NOT_PERMITTED_CANCEL_HOLDING)
+
+        return SeatLockGroup(
+            lockGroupId = lockGroupId,
+            userId = userId,
+            seatIds = seatIds,
+        )
+    }
+
+    override fun deleteBySeatLockGroup(
+        userId: Long,
+        lockGroupId: UUID,
+    ): Long {
+        return queryFactory.delete(seatLock)
+            .filterLockGroup(lockGroupId = lockGroupId, userId = userId)
+            .execute()
     }
 }
