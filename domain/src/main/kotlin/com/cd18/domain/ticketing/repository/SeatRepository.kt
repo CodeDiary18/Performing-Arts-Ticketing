@@ -19,5 +19,5 @@ interface SeatRepository {
     fun updateSeatStatus(
         seatIds: List<Long>,
         status: SeatStatus,
-    )
+    ): Long
 }

@@ -72,8 +72,8 @@ class SeatRepositoryImpl(
     override fun updateSeatStatus(
         seatIds: List<Long>,
         status: SeatStatus,
-    ) {
-        queryFactory.update(seat)
+    ): Long {
+        return queryFactory.update(seat)
             .set(seat.status, status)
             .set(seat.updatedAt, LocalDateTime.now())
             .where(seat.id.`in`(seatIds))
