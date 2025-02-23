@@ -1,7 +1,7 @@
 package com.cd18.infra.persistence.repository
 
 import com.cd18.common.exception.BaseException
-import com.cd18.domain.ticketing.enums.TicketingErrorCode
+import com.cd18.common.http.response.code.BaseErrorCode
 import com.cd18.domain.ticketing.model.SeatLockGroup
 import com.cd18.domain.ticketing.repository.SeatLockRepository
 import com.cd18.infra.persistence.model.QSeatLock.seatLock
@@ -39,12 +39,14 @@ class SeatLockRepositoryImpl(
         val seatIds: List<Long> =
             queryFactory.select(seatLock.seatId)
                 .from(seatLock)
-                .where(
-                    seatLock.userId.eq(userId),
-                )
+                .where(seatLock.userId.eq(userId))
                 .filterLockGroup(lockGroupId = lockGroupId, userId = userId)
                 .filterActive()
-                .fetch() ?: throw BaseException(TicketingErrorCode.NOT_PERMITTED_CANCEL_HOLDING)
+                .fetch()
+
+        if (seatIds.isEmpty()) {
+            throw BaseException(BaseErrorCode.NOT_FOUND)
+        }
 
         return SeatLockGroup(
             lockGroupId = lockGroupId,

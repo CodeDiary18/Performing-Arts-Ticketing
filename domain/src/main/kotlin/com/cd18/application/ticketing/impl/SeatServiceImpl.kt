@@ -2,6 +2,7 @@ package com.cd18.application.ticketing.impl
 
 import com.cd18.application.ticketing.SeatService
 import com.cd18.common.exception.BaseException
+import com.cd18.common.exception.transformBaseException
 import com.cd18.domain.ticketing.enums.SeatStatus
 import com.cd18.domain.ticketing.enums.TicketingErrorCode
 import com.cd18.domain.ticketing.model.Seat
@@ -74,7 +75,12 @@ class SeatServiceImpl(
         userId: Long,
         lockGroupId: UUID,
     ): Result<Unit> {
-        val seatLockGroup = seatLockRepository.getSeatLockGroupByLockGroupId(userId = userId, lockGroupId = lockGroupId)
+        val seatLockGroup =
+            runCatching {
+                seatLockRepository.getSeatLockGroupByLockGroupId(userId = userId, lockGroupId = lockGroupId)
+            }.transformBaseException(
+                TicketingErrorCode.NOT_PERMITTED_CANCEL_HOLDING,
+            ).getOrThrow()
 
         seatRepository.updateSeatStatus(
             seatIds = seatLockGroup.seatIds,
