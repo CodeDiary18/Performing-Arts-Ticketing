@@ -1,6 +1,5 @@
 package com.cd18.web.controller
 
-import com.cd18.application.performance.PerformanceInfoService
 import com.cd18.application.ticketing.SeatService
 import com.cd18.common.http.annotation.CurrentUser
 import com.cd18.common.http.response.ApiResponse
@@ -21,7 +20,6 @@ import java.util.UUID
 @RequestMapping("/ticketing")
 @Tag(name = "공연 티켓팅", description = "공연 티켓팅 APIs")
 class TicketingController(
-    private val performanceInfoService: PerformanceInfoService,
     private val seatService: SeatService,
 ) {
     @PostMapping("/{performanceId}/{scheduleId}/seats/hold")
