@@ -1,6 +1,7 @@
 package com.cd18.infra.persistence.repository
 
 import com.cd18.common.exception.BaseException
+import com.cd18.common.util.getCurrentTime
 import com.cd18.domain.performance.enums.PerformanceInfoErrorCode
 import com.cd18.domain.ticketing.enums.SeatStatus
 import com.cd18.domain.ticketing.model.Seat
@@ -12,7 +13,6 @@ import com.querydsl.core.types.Projections
 import com.querydsl.jpa.impl.JPAQueryFactory
 import jakarta.persistence.LockModeType
 import org.springframework.stereotype.Repository
-import java.time.LocalDateTime
 
 @Repository
 class SeatRepositoryImpl(
@@ -75,7 +75,7 @@ class SeatRepositoryImpl(
     ): Long {
         return queryFactory.update(seat)
             .set(seat.status, status)
-            .set(seat.updatedAt, LocalDateTime.now())
+            .set(seat.updatedAt, getCurrentTime())
             .where(seat.id.`in`(seatIds))
             .execute()
     }
