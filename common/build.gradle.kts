@@ -14,4 +14,5 @@ tasks.bootJar {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.apache.commons:commons-lang3:3.16.0")
 }
