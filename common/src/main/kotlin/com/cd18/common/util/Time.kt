@@ -26,6 +26,8 @@ fun LocalDateTime.getDateAndHour(): Pair<LocalDate, Int> = toLocalDate() to hour
 
 fun LocalDateTime.formattedTime(format: String = "yyyy-MM-dd'T'HH:mm:ss"): String = DateTimeFormatter.ofPattern(format).format(this)
 
+fun LocalDate.formattedDate(format: String = "yyyy-MM-dd"): String = DateTimeFormatter.ofPattern(format).format(this)
+
 fun getLocalDateTime(
     date: LocalDate,
     hour: Int,
