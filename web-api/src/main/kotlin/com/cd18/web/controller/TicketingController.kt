@@ -45,7 +45,7 @@ class TicketingController(
         return ApiResponse(result = SeatHoldingResponse.of(seatLockGroup))
     }
 
-    @DeleteMapping("/{performanceId}/{scheduleId}/seats/hold/{holdingGroupId}")
+    @DeleteMapping("/{performanceId}/{scheduleId}/seats/{holdingGroupId}/cancel")
     @Operation(
         summary = "좌석 홀딩 해제",
         description = "공연 일정에 대해 홀딩된 좌석을 해제합니다.",
