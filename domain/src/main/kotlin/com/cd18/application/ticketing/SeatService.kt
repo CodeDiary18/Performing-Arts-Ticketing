@@ -2,6 +2,7 @@ package com.cd18.application.ticketing
 
 import com.cd18.domain.ticketing.model.Seat
 import com.cd18.domain.ticketing.model.SeatLockGroup
+import com.cd18.domain.ticketing.model.Ticket
 import java.util.UUID
 
 interface SeatService {
@@ -21,4 +22,11 @@ interface SeatService {
         userId: Long,
         lockGroupId: UUID,
     ): Result<Unit>
+
+    fun purchaseSeats(
+        userId: Long,
+        performanceId: Long,
+        scheduleId: Long,
+        lockGroupId: UUID,
+    ): Result<Ticket>
 }

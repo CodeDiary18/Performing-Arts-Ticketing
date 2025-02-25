@@ -4,6 +4,7 @@ import com.cd18.application.ticketing.SeatService
 import com.cd18.common.http.annotation.CurrentUser
 import com.cd18.common.http.response.ApiResponse
 import com.cd18.web.controller.request.SeatHoldingRequest
+import com.cd18.web.controller.response.PurchaseSeatResponse
 import com.cd18.web.controller.response.SeatHoldingResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -64,5 +65,29 @@ class TicketingController(
             lockGroupId = holdingGroupId,
         ).getOrThrow()
         return ApiResponse()
+    }
+
+    @PostMapping("/{performanceId}/{scheduleId}/seats/{holdingGroupId}/purchase")
+    @Operation(
+        summary = "좌석 홀딩 해제",
+        description = "공연 일정에 대해 홀딩된 좌석을 해제합니다.",
+    )
+    fun purchaseSeat(
+        @CurrentUser memberId: Long,
+        @Parameter(description = "공연 ID", required = true, example = "1")
+        @PathVariable performanceId: Long,
+        @Parameter(description = "공연 스케줄 ID", required = true, example = "1")
+        @PathVariable scheduleId: Long,
+        @Parameter(description = "홀딩 그룹 ID", required = true, example = "abcd-1234-efgh-5678")
+        @PathVariable holdingGroupId: UUID,
+    ): ApiResponse<PurchaseSeatResponse> {
+        val purchaseInfo =
+            seatService.purchaseSeats(
+                userId = memberId,
+                performanceId = performanceId,
+                scheduleId = scheduleId,
+                lockGroupId = holdingGroupId,
+            ).getOrThrow()
+        return ApiResponse(result = PurchaseSeatResponse.of(purchaseInfo))
     }
 }

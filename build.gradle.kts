@@ -35,6 +35,7 @@ subprojects {
         testImplementation("org.springframework.boot:spring-boot-starter-test")
         testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
         testImplementation(kotlin("test"))
+        testImplementation("io.mockk:mockk:1.13.17")
     }
 
     tasks.test {
