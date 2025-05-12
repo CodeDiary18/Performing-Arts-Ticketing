@@ -34,8 +34,8 @@ data class PerformanceInfoDetailResponse(
                 performanceOriginPrice = performanceInfoDetailDto.performanceOriginPrice,
                 performanceDiscountPrice = performanceInfoDetailDto.performanceDiscountPrice,
                 performanceDiscountRate = performanceInfoDetailDto.performanceDiscountRate,
-                startDate = performanceInfoDetailDto.startDate,
-                endDate = performanceInfoDetailDto.endDate,
+                startDate = performanceInfoDetailDto.startDate.toString(),
+                endDate = performanceInfoDetailDto.endDate.toString(),
             )
     }
 }

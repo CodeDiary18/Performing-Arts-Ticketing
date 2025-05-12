@@ -40,8 +40,8 @@ data class PerformanceInfoListResponse(
                             performanceOriginPrice = it.performanceOriginPrice,
                             performanceDiscountPrice = it.performanceDiscountPrice,
                             performanceDiscountRate = it.performanceDiscountRate,
-                            startDate = it.startDate,
-                            endDate = it.endDate,
+                            startDate = it.startDate.toString(),
+                            endDate = it.endDate.toString(),
                         )
                     },
             )

@@ -5,16 +5,26 @@ import com.cd18.common.util.isNotNegative
 import com.cd18.domain.performance.enums.PerformanceInfoErrorCode
 import kotlin.math.roundToInt
 
-open class PerformancePrice(
-    val performanceId: Long = 0,
-    val performancePriceId: Long = 0,
+open class PerformancePriceDetails(
     open val performanceOriginPrice: Int,
-    val performanceDiscountId: Long = 0,
     open val performanceDiscountPrice: Int,
 ) {
     val performanceDiscountRate: Int
         get() = calculateDiscountRate()
 
+    private fun calculateDiscountRate(): Int = ((performanceDiscountPrice.toDouble() / performanceOriginPrice) * 100).roundToInt()
+}
+
+open class PerformancePrice(
+    val performanceId: Long = 0,
+    val performancePriceId: Long = 0,
+    override val performanceOriginPrice: Int,
+    val performanceDiscountId: Long = 0,
+    override val performanceDiscountPrice: Int,
+) : PerformancePriceDetails(
+        performanceOriginPrice = performanceOriginPrice,
+        performanceDiscountPrice = performanceDiscountPrice,
+    ) {
     fun changeDiscountPrice(discountPrice: Int): PerformancePrice {
         validateDiscountPrice(discountPrice)
 
@@ -26,8 +36,6 @@ open class PerformancePrice(
             performanceDiscountPrice = discountPrice,
         )
     }
-
-    private fun calculateDiscountRate(): Int = ((performanceDiscountPrice.toDouble() / performanceOriginPrice) * 100).roundToInt()
 
     private fun validateDiscountPrice(discountPrice: Int) {
         if (!discountPrice.isNotNegative()) {
