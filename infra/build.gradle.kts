@@ -36,6 +36,9 @@ dependencies {
     implementation("com.zaxxer:HikariCP")
     implementation("org.hibernate.validator:hibernate-validator:8.0.1.Final")
     implementation("org.glassfish:jakarta.el:4.0.2")
+
+    // Mail
+    implementation("org.springframework.boot:spring-boot-starter-mail")
 }
 
 val generated = file("src/main/generated")
