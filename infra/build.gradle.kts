@@ -37,6 +37,10 @@ dependencies {
     implementation("org.hibernate.validator:hibernate-validator:8.0.1.Final")
     implementation("org.glassfish:jakarta.el:4.0.2")
 
+    // kafka
+    implementation("org.springframework.kafka:spring-kafka:3.3.5")
+    testImplementation("org.springframework.kafka:spring-kafka-test")
+
     // Mail
     implementation("org.springframework.boot:spring-boot-starter-mail")
 }
