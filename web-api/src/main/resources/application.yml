@@ -18,6 +18,12 @@ spring:
     url: jdbc:mysql://localhost:3306/ticketing
     username: root
     password: pw@1234
+  kafka:
+    bootstrap-servers: localhost:29092 # kafka broker address
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
   jpa:
     properties:
       hibernate:

@@ -22,7 +22,7 @@ class SeatServiceTest {
     private val seatRepository: SeatRepository = mockk(relaxed = true)
     private val seatLockRepository: SeatLockRepository = mockk(relaxed = true)
     private val ticketRepository: TicketRepository = mockk(relaxed = true)
-    private val seatService = SeatServiceImpl(seatRepository, seatLockRepository, ticketRepository)
+    private val seatService = SeatServiceImpl(seatRepository, seatLockRepository, ticketRepository, mockk(relaxed = true))
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     @Test
