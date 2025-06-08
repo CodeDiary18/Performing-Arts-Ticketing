@@ -3,6 +3,8 @@ package com.cd18.application.ticketing.impl
 import com.cd18.application.ticketing.SeatService
 import com.cd18.common.exception.BaseException
 import com.cd18.common.exception.transformBaseException
+import com.cd18.domain.port.MessagePublisher
+import com.cd18.domain.port.enums.MessageTopic
 import com.cd18.domain.ticketing.enums.SeatStatus
 import com.cd18.domain.ticketing.enums.TicketingErrorCode
 import com.cd18.domain.ticketing.model.Seat
@@ -21,6 +23,7 @@ class SeatServiceImpl(
     private val seatRepository: SeatRepository,
     private val seatLockRepository: SeatLockRepository,
     private val ticketRepository: TicketRepository,
+    private val messagePublisher: MessagePublisher,
 ) : SeatService {
     private val logger = KotlinLogging.logger {}
 
@@ -129,6 +132,12 @@ class SeatServiceImpl(
         seatLockRepository.deleteBySeatLockGroup(
             userId = userId,
             lockGroupId = lockGroupId,
+        )
+
+        messagePublisher.send(
+            topic = MessageTopic.TICKET_CREATE,
+            key = ticket.ticketNo,
+            message = ticket,
         )
 
         return Result.success(ticket)
