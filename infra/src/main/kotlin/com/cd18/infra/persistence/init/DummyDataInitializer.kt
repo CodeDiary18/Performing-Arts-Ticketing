@@ -153,7 +153,10 @@ class DummyDataInitializer(
     }
 
     private fun insertMemberData() {
-        val members = listOf("홍길동", "김철수", "이영희", "박명수", "정형돈", "유재석", "박명수", "정준하", "노홍철", "하하").map { Member(name = it) }
+        val members =
+            listOf("홍길동", "김철수", "이영희", "박명수", "정형돈", "유재석", "박명수", "정준하", "노홍철", "하하").map {
+                Member(name = it, email = "test${it.indexOf(it)}@example.com")
+            }
         memberJpaRepository.saveAll(members)
     }
 

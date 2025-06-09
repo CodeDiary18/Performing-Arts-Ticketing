@@ -16,5 +16,6 @@ class Member(
     val id: Long = 0,
     @Column(name = "name")
     val name: String,
-    // TODO : email, password, phone 추가
+    @Column(name = "email")
+    val email: String,
 ) : BaseTimeEntity()
