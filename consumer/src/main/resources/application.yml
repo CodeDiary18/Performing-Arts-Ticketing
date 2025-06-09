@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: consumer
+  kafka:
+    bootstrap-servers: localhost:29092 # kafka broker address
+
+server:
+  port: 7777
+
+logging:
+  level:
+    root: INFO
+    com.cd18.consumer: DEBUG

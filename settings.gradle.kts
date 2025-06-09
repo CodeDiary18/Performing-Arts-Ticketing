@@ -6,4 +6,5 @@ include(
     "infra",
     "web-api",
     "batch",
+    "consumer",
 )
