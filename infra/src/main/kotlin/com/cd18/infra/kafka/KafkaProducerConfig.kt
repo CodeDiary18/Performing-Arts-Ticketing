@@ -27,6 +27,10 @@ class KafkaProducerConfig(
             ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to bootstrapServers,
             ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java,
             ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG to JsonSerializer::class.java,
+            
+            // 타입 헤더를 비활성화하여 순수 JSON 문자열로 전송
+            JsonSerializer.ADD_TYPE_INFO_HEADERS to false,
+            JsonSerializer.TYPE_MAPPINGS to "",
         )
 
     @Bean
