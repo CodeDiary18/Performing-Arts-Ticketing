@@ -59,7 +59,7 @@ class PerformanceInfoController(
         @Parameter(description = "공연 ID", required = true, example = "1")
         @PathVariable id: Long,
     ): ApiResponse<PerformanceScheduleListResponse> {
-        val scheduleInfoById = performanceInfoService.getScheduleInfoById(id).getOrThrow()
+        val scheduleInfoById = performanceInfoService.getScheduleInfoById(performanceId = id).getOrThrow()
         return ApiResponse(
             result =
                 PerformanceScheduleListResponse.of(

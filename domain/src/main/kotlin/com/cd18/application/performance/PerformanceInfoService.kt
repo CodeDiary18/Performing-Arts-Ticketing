@@ -15,5 +15,8 @@ interface PerformanceInfoService {
         discountPrice: Int,
     ): Result<Unit>
 
-    fun getScheduleInfoById(id: Long): Result<List<PerformanceSchedule>>
+    fun getScheduleInfoById(
+        performanceId: Long,
+        scheduleIds: List<Long>? = null,
+    ): Result<List<PerformanceSchedule>>
 }

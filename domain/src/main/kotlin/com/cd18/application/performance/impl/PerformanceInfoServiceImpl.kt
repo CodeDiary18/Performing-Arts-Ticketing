@@ -52,10 +52,13 @@ class PerformanceInfoServiceImpl(
             saveDiscountChangeHistory(updatedPriceInfo)
         }
 
-    override fun getScheduleInfoById(id: Long): Result<List<PerformanceSchedule>> =
+    override fun getScheduleInfoById(
+        performanceId: Long,
+        scheduleIds: List<Long>?,
+    ): Result<List<PerformanceSchedule>> =
         runCatching {
-            validatePerformanceExists(id)
-            performanceScheduleRepository.getScheduleInfoByPerformanceId(id)
+            validatePerformanceExists(performanceId)
+            performanceScheduleRepository.getScheduleInfoByPerformanceId(id = performanceId, scheduleIds = scheduleIds)
         }
 
     private fun updateDiscountPrice(updatedPriceInfo: PerformancePrice) {

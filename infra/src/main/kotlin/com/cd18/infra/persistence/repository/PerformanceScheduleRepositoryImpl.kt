@@ -13,7 +13,10 @@ class PerformanceScheduleRepositoryImpl(
     private val queryFactory: JPAQueryFactory,
     private val performanceScheduleJpaRepository: PerformanceScheduleJpaRepository,
 ) : PerformanceScheduleRepository {
-    override fun getScheduleInfoByPerformanceId(id: Long): List<PerformanceSchedule> {
+    override fun getScheduleInfoByPerformanceId(
+        id: Long,
+        scheduleIds: List<Long>?,
+    ): List<PerformanceSchedule> {
         return queryFactory.select(
             Projections.constructor(
                 PerformanceSchedule::class.java,
@@ -22,7 +25,8 @@ class PerformanceScheduleRepositoryImpl(
             ),
         ).from(performanceSchedule)
             .where(
-                performanceSchedule.performanceInfoId.eq(id),
+                id.let { performanceSchedule.performanceInfoId.eq(it) },
+                scheduleIds?.let { performanceSchedule.id.`in`(scheduleIds) },
             )
             .orderBy(performanceSchedule.startTime.asc())
             .fetch()
