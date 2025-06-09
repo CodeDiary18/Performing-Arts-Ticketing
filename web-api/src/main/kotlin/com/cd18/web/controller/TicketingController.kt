@@ -69,8 +69,8 @@ class TicketingController(
 
     @PostMapping("/{performanceId}/{scheduleId}/seats/{holdingGroupId}/purchase")
     @Operation(
-        summary = "좌석 홀딩 해제",
-        description = "공연 일정에 대해 홀딩된 좌석을 해제합니다.",
+        summary = "티켓 구매",
+        description = "티켓 구매 요청을 처리합니다.",
     )
     fun purchaseSeat(
         @CurrentUser memberId: Long,
