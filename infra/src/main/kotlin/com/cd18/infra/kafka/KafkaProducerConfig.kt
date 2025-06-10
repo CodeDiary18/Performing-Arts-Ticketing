@@ -1,5 +1,8 @@
 package com.cd18.infra.kafka
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.serialization.StringSerializer
 import org.springframework.beans.factory.annotation.Value
@@ -18,7 +21,16 @@ class KafkaProducerConfig(
 ) {
     @Bean
     fun producerFactory(): ProducerFactory<String, Any> {
-        return DefaultKafkaProducerFactory(producerConfigs())
+        val objectMapper =
+            ObjectMapper().apply {
+                registerModule(JavaTimeModule())
+                disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+            }
+        val jsonSerializer =
+            JsonSerializer<Any>(objectMapper).apply {
+                setAddTypeInfo(false)
+            }
+        return DefaultKafkaProducerFactory(producerConfigs(), StringSerializer(), jsonSerializer)
     }
 
     @Bean
