@@ -6,7 +6,7 @@ import java.time.LocalTime
 
 class PerformanceSchedule(
     val performanceScheduleId: Long,
-    private val scheduleDateTime: LocalDateTime,
+    val scheduleDateTime: LocalDateTime,
 ) {
     val scheduleDate: LocalDate
         get() = scheduleDateTime.toLocalDate()
