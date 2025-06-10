@@ -8,12 +8,12 @@ interface MailService {
         to: String,
         subject: String,
         text: String,
-        attachments: List<File> = emptyList(),
+        attachments: List<File>?,
     )
 
     fun sendByTemplate(
         to: String,
         template: MailTemplate,
-        attachments: List<File> = emptyList(),
+        attachments: List<File>?,
     )
 }

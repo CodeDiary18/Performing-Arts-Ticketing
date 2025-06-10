@@ -20,7 +20,7 @@ class MailServiceImpl(
         to: String,
         subject: String,
         text: String,
-        attachments: List<File>,
+        attachments: List<File>?,
     ) {
         val mimeMessage: MimeMessage = mailSender.createMimeMessage()
         try {
@@ -31,8 +31,10 @@ class MailServiceImpl(
             helper.setSubject(subject)
             helper.setText(text, true)
 
-            attachments.forEach { file ->
-                helper.addAttachment(file.name, file)
+            if (!attachments.isNullOrEmpty()) {
+                attachments.forEach { file ->
+                    helper.addAttachment(file.name, file)
+                }
             }
         } catch (e: MailAuthenticationException) {
             throw IllegalArgumentException("Mail Authentication Error: ${e.message}", e)
@@ -45,13 +47,15 @@ class MailServiceImpl(
     override fun sendByTemplate(
         to: String,
         template: MailTemplate,
-        attachments: List<File>,
+        attachments: List<File>?,
     ) {
-        this.send(
-            to = to,
-            subject = template.getSubject(),
-            text = template.getBody(),
-            attachments = attachments,
-        )
+        if (attachments != null) {
+            this.send(
+                to = to,
+                subject = template.getSubject(),
+                text = template.getBody(),
+                attachments = attachments,
+            )
+        }
     }
 }
