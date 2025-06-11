@@ -5,21 +5,28 @@ import com.cd18.common.util.generateRandomString
 import com.cd18.common.util.getCurrentTime
 import java.time.LocalDateTime
 
-class Ticket(
+data class Ticket(
     val userId: Long,
     val performanceId: Long,
     val scheduleId: Long,
-    private val seatIds: List<Long>,
+    val seatIds: List<Long> = emptyList(),
+    val createTime: LocalDateTime = getCurrentTime(),
+    val ticketNo: String = generateTicketNo(createTime),
+    val ticketItems: List<TicketItem> =
+        seatIds.mapIndexed {
+                index,
+                seatId,
+            ->
+            TicketItem(seatId, "$ticketNo-${index.toString().padStart(3, '0')}")
+        },
 ) {
-    private val createTime: LocalDateTime = getCurrentTime()
-    val ticketNo: String = generateTicketNo()
-    val ticketItems: List<TicketItem> = seatIds.mapIndexed { index, seatId -> TicketItem(seatId, index + 1) }
-
-    inner class TicketItem(val seatId: Long, index: Int) {
-        val ticketItemNo: String = "${this@Ticket.ticketNo}-${index.toString().padStart(3, '0')}"
-    }
+    data class TicketItem(val seatId: Long, val ticketItemNo: String)
 
     companion object {
+        fun generateTicketNo(createTime: LocalDateTime): String {
+            return "T${createTime.formattedTime("yyMMddHH")}${generateRandomString(6, uppercase = true)}"
+        }
+
         fun create(
             userId: Long,
             performanceId: Long,
@@ -33,9 +40,5 @@ class Ticket(
                 seatIds = seatIds,
             )
         }
-    }
-
-    private fun generateTicketNo(): String {
-        return "T${createTime.formattedTime("yyMMddHH")}${generateRandomString(6, uppercase = true)}"
     }
 }
