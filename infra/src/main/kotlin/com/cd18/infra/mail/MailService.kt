@@ -14,6 +14,6 @@ interface MailService {
     fun sendByTemplate(
         to: String,
         template: MailTemplate,
-        attachments: List<File>?,
+        attachments: List<File>? = null,
     )
 }
