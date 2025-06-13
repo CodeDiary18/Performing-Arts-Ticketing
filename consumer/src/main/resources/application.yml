@@ -1,8 +1,25 @@
 spring:
   application:
     name: consumer
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ticketing
+    username: root
+    password: pw@1234
   kafka:
     bootstrap-servers: localhost:29092 # kafka broker address
+  mail:
+    host: localhost # smtp.gmail.com
+    port: 1025 # 587
+    username: MAIL_APP_USERNAME
+    password: MAIL_APP_PASSWORD
+    properties:
+      mail:
+      smtp:
+        auth: false
+        timeout: 5000
+        starttls:
+          enable: true
 
 server:
   port: 7777
